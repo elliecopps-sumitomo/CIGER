@@ -80,10 +80,10 @@ class DataReaderDB(object):
             excerpt = slice(start_idx, start_idx + batch_size)
             output_feature = dict()
             output_feature['drug'] = convert_smile_to_feature(self.drug[excerpt], self.device)
-            output_feature['mask'] = create_mask_feature(output_feature['drug'], self.device)
+            # output_feature['mask'] = create_mask_feature(output_feature['drug'], self.device)
             output_feature['gene'] = torch.arange(978).repeat(len(self.drug[excerpt])).\
                 reshape(len(self.drug[excerpt]), 978).to(self.device)
             cell_mtx = np.zeros((len(self.drug[excerpt]), 10), dtype=np.float32)
-            cell_mtx[:, cell_idx] = 1
-            output_feature['cell'] = torch.from_numpy(cell_mtx).to(self.device)
+            # cell_mtx[:, 2] = 1
+            # output_feature['cell_id'] = torch.from_numpy(cell_mtx).to(self.device)
             yield output_feature
