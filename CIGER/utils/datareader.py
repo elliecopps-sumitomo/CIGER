@@ -50,6 +50,7 @@ class DataReader(object):
             output_label = dict()
             if self.fp_type == 'neural':
                 output_feature['drug'] = convert_smile_to_feature(feature['drug'][excerpt], self.device)
+                output_feature['drug_smile'] = feature['drug'][excerpt]
                 output_feature['mask'] = create_mask_feature(output_feature['drug'], self.device)
             else:
                 output_feature['drug'] = feature['drug'][excerpt]
@@ -71,6 +72,7 @@ class DataReaderDB(object):
     def __init__(self, drug_file, gene_file, device):
         self.device = device
         drug, self.drug_dim = read_drug_string(drug_file)
+        self.drug = drug
         drug_id, drug_smiles = zip(*sorted(drug.items()))
         self.drug = np.array(drug_smiles)
         self.gene = read_gene(gene_file, 1107, self.device)
@@ -80,6 +82,7 @@ class DataReaderDB(object):
             excerpt = slice(start_idx, start_idx + batch_size)
             output_feature = dict()
             output_feature['drug'] = convert_smile_to_feature(self.drug[excerpt], self.device)
+            output_feature['drug_smile'] = self.drug[excerpt]
             # output_feature['mask'] = create_mask_feature(output_feature['drug'], self.device)
             output_feature['gene'] = torch.arange(978).repeat(len(self.drug[excerpt])).\
                 reshape(len(self.drug[excerpt]), 978).to(self.device)

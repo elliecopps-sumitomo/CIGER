@@ -75,6 +75,8 @@ for batch in (tqdm(batch)):
     cell_id = torch.tensor([[1,0,0,0,0,0,0,0,0,0]])
 
     predict = model(drug, gene, pert_type, cell_id, pert_idose)
+    print("drug: ")
+    print(batch['drug_smile'])
+    print(predict.detach().cpu().numpy())
     predict_np = np.concatenate((predict_np, predict.detach().cpu().numpy()), axis=0)
-print(predict_np)
-print(np.shape(predict_np))
+
