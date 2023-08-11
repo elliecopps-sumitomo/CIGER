@@ -68,25 +68,23 @@ class DataReader(object):
             yield output_feature, output_label
 
 
-class DataReaderDB(object):
+class DataReaderPredict(object):
     def __init__(self, drug_file, gene_file, device):
         self.device = device
         drug, self.drug_dim = read_drug_string(drug_file)
         self.drug = drug
         drug_id, drug_smiles = zip(*sorted(drug.items()))
+        self.drug_id = np.array(drug_id)
         self.drug = np.array(drug_smiles)
         self.gene = read_gene(gene_file, 1107, self.device)
 
-    def get_batch_data(self, batch_size, cell_idx):
+    def get_batch_data(self, batch_size):
         for start_idx in range(0, len(self.drug), batch_size):
             excerpt = slice(start_idx, start_idx + batch_size)
             output_feature = dict()
             output_feature['drug'] = convert_smile_to_feature(self.drug[excerpt], self.device)
             output_feature['drug_smile'] = self.drug[excerpt]
-            # output_feature['mask'] = create_mask_feature(output_feature['drug'], self.device)
+            output_feature['drug_id'] = self.drug_id[excerpt][0]
             output_feature['gene'] = torch.arange(978).repeat(len(self.drug[excerpt])).\
                 reshape(len(self.drug[excerpt]), 978).to(self.device)
-            cell_mtx = np.zeros((len(self.drug[excerpt]), 10), dtype=np.float32)
-            # cell_mtx[:, 2] = 1
-            # output_feature['cell_id'] = torch.from_numpy(cell_mtx).to(self.device)
             yield output_feature

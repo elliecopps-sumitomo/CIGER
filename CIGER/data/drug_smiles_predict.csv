@@ -1,6 +1,1 @@
-BRD-A00100033,CC1CS(=O)(=O)CCN1N=Cc1ccc(o1)[N+]([O-])=O
-BRD-A00147595,Cn1c(COc2ccc(CC3SC(=O)NC3=O)cc2)nc2ccccc2c1=O
-BRD-A00218260,Fc1ccc(cc1)C(c1ccccc1)(c1ccccc1F)n1ccnc1
-BRD-A00267231,CCCCC#Cc1[n]c2c([n]c[n]2C2OC(CO)C(O)C2O)c(NC)[n]1
-BRD-A00376169,OC1O[C@@H]2COC(O[C@H]2[C@H](O)[C@H]1O)c1ccccc1
-BRD-A05821830,CC(=O)O[C@@]12CO[C@@H]1C[C@H](O)[C@]1(C)C2[C@H](OC(=O)c2ccccc2)[C@]2(O)C[C@H](OC(=O)[C@H](O)[C@@H](NC(=O)OC(C)(C)C)c3ccccc3)C(C)=C([C@@H](O)C1=O)C2(C)C
+BRD-A00758722,C[C@]12CCC3C(CCC4CC(=O)CCC=43)C1CC[C@@]2(O)C#C #Format should be drug id, drug smile (Do not add lines with no drug! even comments)
