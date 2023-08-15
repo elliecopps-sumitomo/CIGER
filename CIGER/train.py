@@ -69,7 +69,7 @@ if inference:
                   initializer=intitializer, pert_type_input_dim=data.pert_type_dim, cell_id_input_dim=data.cell_id_dim,
                   pert_idose_input_dim=data.pert_idose_dim, use_pert_type=data.use_pert_type,
                   use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose)
-    checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type + '_testing', fold),
+    checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold),
                             map_location=device)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.to(device)
@@ -146,8 +146,7 @@ else:
                   use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose)
 
     if warm_start:
-        checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type,
-                                                                  fold), map_location=device)
+        checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold), map_location=device)
         model.load_state_dict(checkpoint['model_state_dict'])
         model.to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -274,7 +273,7 @@ else:
                 best_dev_ndcg = ndcg_score
                 torch.save({'model_state_dict': model.state_dict(),
                             'optimizer_state_dict': optimizer.state_dict()},
-                           'saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type + '_testing', fold))
+                           'saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold))
 
         epoch_loss = 0
         label_binary_np = np.empty([0, num_gene])
