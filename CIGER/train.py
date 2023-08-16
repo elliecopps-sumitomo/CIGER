@@ -50,7 +50,7 @@ loss_type = args.loss_type
 batch_size = int(args.batch_size)
 max_epoch = int(args.max_epoch)
 lr = float(args.lr)
- = int(args.)
+fold = int(args.fold)
 model_name = args.model_name
 warm_start = True if args.warm_start == 'True' else False
 inference = True if args.inference == 'True' else False

@@ -1,0 +1,179 @@
+Feature Summary:
+['trt_cp']
+['A375', 'A549', 'HA1E', 'HCC515', 'HELA', 'HT29', 'MCF7', 'PC3', 'VCAP', 'YAPC']
+['10.0 um']
+#Train: 2016
+#Dev: 668
+#Test: 610
+Iteration 1:
+Train loss:
+1.7303139679133892
+Dev AUROC: 0.5818
+Dev NDCG: 0.7722
+Dev Precision 10: 0.3549
+Dev Precision 50: 0.3346
+Dev Precision 100: 0.3174
+Dev Precision 200: 0.2860
+Test AUROC: 0.5722
+Test NDCG: 0.7701
+Test Precision 10: 0.3425
+Test Precision 50: 0.3415
+Test Precision 100: 0.3179
+Test Precision 200: 0.2881
+Iteration 2:
+Train loss:
+1.5059311464428902
+Dev AUROC: 0.6005
+Dev NDCG: 0.7909
+Dev Precision 10: 0.4701
+Dev Precision 50: 0.3771
+Dev Precision 100: 0.3322
+Dev Precision 200: 0.3076
+Test AUROC: 0.5909
+Test NDCG: 0.7917
+Test Precision 10: 0.4939
+Test Precision 50: 0.3874
+Test Precision 100: 0.3374
+Test Precision 200: 0.3094
+Iteration 3:
+Train loss:
+1.4480206593871117
+Dev AUROC: 0.6061
+Dev NDCG: 0.7964
+Dev Precision 10: 0.5006
+Dev Precision 50: 0.3965
+Dev Precision 100: 0.3658
+Dev Precision 200: 0.3129
+Test AUROC: 0.5998
+Test NDCG: 0.7979
+Test Precision 10: 0.5392
+Test Precision 50: 0.4045
+Test Precision 100: 0.3690
+Test Precision 200: 0.3155
+Iteration 4:
+Train loss:
+1.416795276105404
+Dev AUROC: 0.6118
+Dev NDCG: 0.7972
+Dev Precision 10: 0.4963
+Dev Precision 50: 0.4081
+Dev Precision 100: 0.3707
+Dev Precision 200: 0.3209
+Test AUROC: 0.6041
+Test NDCG: 0.7988
+Test Precision 10: 0.5216
+Test Precision 50: 0.4190
+Test Precision 100: 0.3741
+Test Precision 200: 0.3244
+Iteration 5:
+Train loss:
+1.3973719663918018
+Dev AUROC: 0.6182
+Dev NDCG: 0.8003
+Dev Precision 10: 0.5046
+Dev Precision 50: 0.4132
+Dev Precision 100: 0.3708
+Dev Precision 200: 0.3248
+Test AUROC: 0.6126
+Test NDCG: 0.8020
+Test Precision 10: 0.5397
+Test Precision 50: 0.4244
+Test Precision 100: 0.3770
+Test Precision 200: 0.3299
+Iteration 6:
+Train loss:
+1.3803515434265137
+Dev AUROC: 0.6196
+Dev NDCG: 0.7983
+Dev Precision 10: 0.5091
+Dev Precision 50: 0.4210
+Dev Precision 100: 0.3741
+Dev Precision 200: 0.3286
+Test AUROC: 0.6135
+Test NDCG: 0.7994
+Test Precision 10: 0.5449
+Test Precision 50: 0.4288
+Test Precision 100: 0.3781
+Test Precision 200: 0.3322
+Iteration 7:
+Train loss:
+1.354473501443863
+Dev AUROC: 0.6315
+Dev NDCG: 0.8038
+Dev Precision 10: 0.5105
+Dev Precision 50: 0.4246
+Dev Precision 100: 0.3839
+Dev Precision 200: 0.3388
+Test AUROC: 0.6243
+Test NDCG: 0.8058
+Test Precision 10: 0.5466
+Test Precision 50: 0.4334
+Test Precision 100: 0.3849
+Test Precision 200: 0.3420
+Iteration 8:
+Train loss:
+1.3215278573334217
+Dev AUROC: 0.6343
+Dev NDCG: 0.8034
+Dev Precision 10: 0.5159
+Dev Precision 50: 0.4354
+Dev Precision 100: 0.3919
+Dev Precision 200: 0.3438
+Test AUROC: 0.6388
+Test NDCG: 0.8048
+Test Precision 10: 0.5431
+Test Precision 50: 0.4397
+Test Precision 100: 0.3935
+Test Precision 200: 0.3443
+Iteration 9:
+Train loss:
+1.2971445247530937
+Dev AUROC: 0.6390
+Dev NDCG: 0.8056
+Dev Precision 10: 0.5313
+Dev Precision 50: 0.4440
+Dev Precision 100: 0.3983
+Dev Precision 200: 0.3480
+Test AUROC: 0.6386
+Test NDCG: 0.8066
+Test Precision 10: 0.5441
+Test Precision 50: 0.4465
+Test Precision 100: 0.3978
+Test Precision 200: 0.3465
+Iteration 10:
+Train loss:
+1.271437093615532
+Dev AUROC: 0.6446
+Dev NDCG: 0.8083
+Dev Precision 10: 0.5356
+Dev Precision 50: 0.4513
+Dev Precision 100: 0.4064
+Dev Precision 200: 0.3525
+Test AUROC: 0.6460
+Test NDCG: 0.8087
+Test Precision 10: 0.5639
+Test Precision 50: 0.4553
+Test Precision 100: 0.4046
+Test Precision 200: 0.3519
+Epoch 10 got best auroc on dev set: 0.6446
+Epoch 10 got auroc on test set w.r.t dev set: 0.6460
+Epoch 10 got auroc on test set: 0.6460
+Epoch 10 got best auprc on dev set: 0.0960
+Epoch 10 got auprc on test set w.r.t dev set: 0.0903
+Epoch 10 got auprc on test set: 0.0903
+Epoch 10 got best ndcg on dev set: 0.8083
+Epoch 10 got ndcg on test set w.r.t dev set: 0.8087
+Epoch 10 got ndcg on test set: 0.8087
+Epoch 10 got best p10 on dev set: 0.5356
+Epoch 10 got p10 on test set w.r.t dev set: 0.5639
+Epoch 10 got p10 on test set: 0.5639
+Epoch 10 got best p50 on dev set: 0.4513
+Epoch 10 got p50 on test set w.r.t dev set: 0.4553
+Epoch 10 got p50 on test set: 0.4553
+Epoch 10 got best p100 on dev set: 0.4064
+Epoch 10 got p100 on test set w.r.t dev set: 0.4046
+Epoch 10 got p100 on test set: 0.4046
+Epoch 10 got best p200 on dev set: 0.3525
+Epoch 10 got p200 on test set w.r.t dev set: 0.3519
+Epoch 10 got p200 on test set: 0.3519
+2:17:16.257770
