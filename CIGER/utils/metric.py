@@ -13,7 +13,7 @@ def precision_k(label_test, label_predict, k):
     neg_test_set = label_test[:, :num_neg]
     pos_test_set = label_test[:, -num_pos:]
     neg_predict_set = label_predict[:, :k]
-    pos_predict_set = label_predict[:, -k:]
+    pos_predict_set = label_predict[:, -k:] 
     for i in range(len(neg_test_set)):
         neg_test = set(neg_test_set[i])
         pos_test = set(pos_test_set[i])
@@ -22,6 +22,40 @@ def precision_k(label_test, label_predict, k):
         precision_k_neg.append(len(neg_test.intersection(neg_predict)) / k)
         precision_k_pos.append(len(pos_test.intersection(pos_predict)) / k)
     return np.mean(precision_k_pos)
+
+
+def precision_k_200(label_test, label_predict):
+    #OUTPUT: currently the average of the positive and negative precision scores
+    #label_test is what we want to get, the pancreatic cancer signature, where the genes are in the same order as our prediction genes (1, 978)
+    #label_predict has one row for each prediction (#drugs*10, 978)
+    k = 200
+    precision_k_pos = list([] for i in range(0, 10))
+    precision_k_neg = list([] for i in range(0, 10))
+
+    #rank genes in terms of how much their expression changed
+    label_test = np.argsort(label_test)
+    label_predict = np.argsort(label_predict, axis=1)
+
+    #Take only the k most up and down regulated genes
+    neg_test_set = label_test[:k]
+    pos_test_set = label_test[-k:]
+    neg_predict_set = label_predict[:, :k]
+    pos_predict_set = label_predict[:, -k:]
+    pos_test = set(pos_test_set)
+    neg_test = set(neg_test_set)
+    for i in range(len(neg_predict_set)):
+        neg_predict = set(neg_predict_set[i])
+        pos_predict = set(pos_predict_set[i])
+        precision_k_neg[i%10].append(len(neg_test.intersection(neg_predict)) / k)
+        precision_k_pos[i % 10].append(len(pos_test.intersection(pos_predict)) / k)
+    #Take average of positive and negative scores
+    precision_scores = []
+    for i in range(0, 10):
+        avg_lst = [(g+h) / 2 for g, h in zip(precision_k_pos[i], precision_k_neg[i])]
+        precision_scores.append(avg_lst)
+    
+    return precision_scores #this is a 2d array where each cell line has a score for each drug tested
+
 
 
 def kendall_tau(label_test, label_predict):

@@ -58,11 +58,16 @@ def read_drug_id(input_file):
     return drug_id
 
 
-score = np.load('precision_score.npy')
-top_10_drug_idx = np.argsort(score, axis=-1)[:, -10:]
-drug_id = read_drug_id('drugbank_drug_id.csv')
-drug_list_10 = Counter(top_10_drug_idx.flatten())
+score = np.load('precision_score.npy') #score where each row is array of score for each drug tested
+print(score)
+print(np.shape(score))
+top_10_drug_idx = np.argsort(score, axis=-1)[:, -10:] #Finds index of top 10 scores for each cell line, puts them into an array
+print(top_10_drug_idx)
+drug_id = read_drug_id('drugbank_drug_id.csv') #list of drug ids IN SAME ORDER as drugs in precision_score file (modify to get it straight from file?)
+drug_list_10 = Counter(top_10_drug_idx.flatten()) #Turns into a dictionary of form drug_index : number of cell lines where it has top 10 score
+print(drug_list_10)
 set10 = set(drug_list_10.keys())
+print(set10)
 output = [['DrugBank ID', 'Number of cell lines of which drug appears in top-10 candidate']]
 c1 = 'DrugBank ID'
 c2 = 'Number of cell lines of which drug appears in top-10 candidate list'

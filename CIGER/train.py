@@ -99,7 +99,7 @@ if inference:
             # print("Drug: ")
             # print(ft["drug_smile"])
             # print(cell_id)
-            print(predict.cpu().numpy())
+            #print(predict.cpu().numpy())
             if label_type == 'binary' or label_type == 'real':
                 label = lb['binary']
             elif label_type == 'binary_reverse' or label_type == 'real_reverse':

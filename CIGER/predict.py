@@ -7,7 +7,7 @@ from datetime import datetime
 import csv
 
 from models import CIGER
-from utils import DataReaderPredict, DataReader
+from utils import DataReaderPredict, DataReader, precision_k_200
 from tqdm import tqdm
 
 start_time = datetime.now()
@@ -19,6 +19,8 @@ parser.add_argument('--gene_file', help='gene feature file')
 parser.add_argument('--data_file', help='chemical signature file')
 parser.add_argument('--model_name', help='name of model')
 parser.add_argument('--prediction_file', help='csv file where you want to store the predictions from the model')
+parser.add_argument('--gsea_save_file', help='optional text file to store model predictions for gsea analysis')
+
 # parser.add_argument('--fp_type', help='ECFP or Neural FP')
 # parser.add_argument('--loss_type', help='pair_wise_ranknet/list_wise_listnet/list_wise_listmle/list_wise_rankcosine/'
 #                                         'list_wise_ndcg')
@@ -32,10 +34,11 @@ drug_smiles = args.drug_smiles
 #file should be included already, has 978 genes
 gene_file = args.gene_file
 save_predictions = args.prediction_file
+gsea_save_file = args.gsea_save_file
 
 fp_type = 'neural'
 loss_type = 'list_wise_rankcosine' 
-label_type = 'binary'
+label_type = 'real'
 fold = 0
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -54,7 +57,7 @@ data = DataReaderPredict(drug_smiles, gene_file, device)
 model = CIGER(drug_input_dim=data.drug_dim, gene_embed=data.gene, gene_input_dim=data.gene.size()[1],
                 encode_dim=512, fp_type=fp_type, loss_type=loss_type, label_type=label_type, device=device,
                 initializer=intitializer, pert_type_input_dim=1, cell_id_input_dim=10, pert_idose_input_dim=1, use_cell_id=True, use_pert_idose=False, use_pert_type=False)
-checkpoint = torch.load('saved_model/ciger/ciger_list_wise_rankcosine_binary_testing_0.ckpt',
+checkpoint = torch.load('saved_model/ciger/ciger_list_wise_rankcosine_real_0.ckpt',
                         map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)
@@ -63,6 +66,11 @@ model.eval()
 predict_np = np.empty([0, num_gene])
 batch = data.get_batch_data(1)
 predictions = list()
+k_score_predictions = list()
+
+gsea_col_1 = ["NAME"] + gene_list
+gsea_col_2 = ["DESCRIPTION"] + ['na']*len(gene_list)
+gsea_predictions = [gsea_col_1, gsea_col_2]
 cell_lines = ['A375', 'A549', 'HA1E', 'HCC515', 'HELA', 'HT29', 'MCF7', 'PC3', 'VCAP', 'YAPC']
 
 for batch in (tqdm(batch)):
@@ -81,10 +89,25 @@ for batch in (tqdm(batch)):
         predict = model(drug, gene, pert_type, cell_id, pert_idose)
         prediction["drug_id"] = batch['drug_id']
         prediction["cell_line"] = cell_lines[cell_idx]
-        prediction["gene_exp"] = dict(zip(gene_list, predict.detach().cpu().tolist()[0]))
+        gene_vals = predict.detach().cpu().tolist()[0]
+        gsea_prediction_list = [batch['drug_id']+'_'+cell_lines[cell_idx]] + gene_vals
+        prediction["gene_exp"] = dict(zip(gene_list, gene_vals))
         predictions.append(prediction)
-print(predictions)
+        k_score_predictions.append(gene_vals)
+        gsea_predictions.append(gsea_prediction_list)
+
+pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile.npy') #This is log2FoldChange for each gene in gene_feature
+k_score_avgs = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
+np.save('scores/k_scores.npy', k_score_avgs)
+
 with open(save_predictions, 'w') as file:
     writer = csv.DictWriter(file, fieldnames=["drug_id", "cell_line", "gene_exp"])
     writer.writeheader()
     writer.writerows(predictions)
+
+if gsea_save_file:
+    gsea_transposed = list(zip(*gsea_predictions))
+    with open(gsea_save_file, 'w') as file:
+        for row in gsea_transposed:
+            row_str = "\t".join(map(str, row))
+            file.write(row_str + "\n")
