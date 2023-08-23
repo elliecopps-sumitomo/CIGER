@@ -14,12 +14,9 @@ start_time = datetime.now()
 
 parser = argparse.ArgumentParser(description='Gene Expression Prediction')
 parser.add_argument('--drug_smiles', help='drug feature file (ECFP or SMILES)')
-parser.add_argument('--drug_id_file', help='drug id file')
 parser.add_argument('--gene_file', help='gene feature file')
-parser.add_argument('--data_file', help='chemical signature file')
-parser.add_argument('--model_name', help='name of model')
 parser.add_argument('--prediction_file', help='csv file where you want to store the predictions from the model')
-parser.add_argument('--gsea_save_file', help='optional text file to store model predictions for gsea analysis')
+parser.add_argument('--gsea_save', help='optional boolean whether or not to store gsea files for drug repurposing analysis')
 
 # parser.add_argument('--fp_type', help='ECFP or Neural FP')
 # parser.add_argument('--loss_type', help='pair_wise_ranknet/list_wise_listnet/list_wise_listmle/list_wise_rankcosine/'
@@ -34,7 +31,7 @@ drug_smiles = args.drug_smiles
 #file should be included already, has 978 genes
 gene_file = args.gene_file
 save_predictions = args.prediction_file
-gsea_save_file = args.gsea_save_file
+gsea_save = args.gsea_save
 
 fp_type = 'neural'
 loss_type = 'list_wise_rankcosine' 
@@ -97,17 +94,33 @@ for batch in (tqdm(batch)):
         gsea_predictions.append(gsea_prediction_list)
 
 pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile.npy') #This is log2FoldChange for each gene in gene_feature
-k_score_avgs = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
-np.save('scores/k_scores.npy', k_score_avgs)
+k_score_avgs, k_pos, k_neg = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
+print("avgs:")
+print(k_score_avgs)
+print("pos:")
+print(k_pos)
+for i in range(0, 9):
+    print("avg")
+    print(np.argsort([k[i] for k in k_score_avgs]))
+    print("pos")
+    print(np.argsort([k[i] for k in k_pos]))
+    print("")
 
-with open(save_predictions, 'w') as file:
-    writer = csv.DictWriter(file, fieldnames=["drug_id", "cell_line", "gene_exp"])
-    writer.writeheader()
-    writer.writerows(predictions)
+# np.save('scores/k_scores.npy', k_score_avgs)
+# np.save('scores/k_scores_pos.npy', k_pos)
+# np.save('scores/k_scores_neg.npy', k_neg)
 
-if gsea_save_file:
-    gsea_transposed = list(zip(*gsea_predictions))
-    with open(gsea_save_file, 'w') as file:
-        for row in gsea_transposed:
-            row_str = "\t".join(map(str, row))
-            file.write(row_str + "\n")
+# with open(save_predictions, 'w') as file:
+#     writer = csv.DictWriter(file, fieldnames=["drug_id", "cell_line", "gene_exp"])
+#     writer.writeheader()
+#     writer.writerows(predictions)
+
+# if gsea_save:
+#     pancreatic_data = ["p_treated"] + pancreatic_expression.tolist()
+#     pancreatic_string = "\t".join(map(str, pancreatic_data))
+#     for i in range(2, len(gsea_predictions)):
+#         gsea_transposed = list(zip(gsea_predictions[0], gsea_predictions[1], gsea_predictions[i], pancreatic_data))
+#         with open('data/gsea_expressions/' + gsea_predictions[i][0] + '.txt', 'w') as file:
+#             for row in gsea_transposed:
+#                 row_str = "\t".join(map(str, row))
+#                 file.write(row_str + "\n")

@@ -21,7 +21,7 @@ expression_vals = [0] * len(genes)
 data_file = csv.reader(open(disease_dseq))
 for gene_exp in data_file:
     if(gene_exp[0]) in genes:
-        expression_vals[genes[gene_exp[0]]] = float(gene_exp[2])
+        expression_vals[genes[gene_exp[0]]] = (float(gene_exp[2]))
 
 np.save('../disease_profile/pancreatic_expression_profile.npy', np.array(expression_vals))
 
