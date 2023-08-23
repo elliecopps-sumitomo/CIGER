@@ -1,0 +1,329 @@
+Feature Summary:
+['trt_cp']
+['A375', 'A549', 'HA1E', 'HCC515', 'HELA', 'HT29', 'MCF7', 'PC3', 'VCAP', 'YAPC']
+['10.0 um']
+#Train: 2016
+#Dev: 668
+#Test: 610
+Iteration 1:
+Train loss:
+0.5723476205021143
+Dev AUROC: 0.6975
+Dev NDCG: 0.8224
+Dev Precision 10: 0.5832
+Dev Precision 50: 0.5039
+Dev Precision 100: 0.4511
+Dev Precision 200: 0.3847
+Test AUROC: 0.7054
+Test NDCG: 0.8241
+Test Precision 10: 0.5979
+Test Precision 50: 0.5185
+Test Precision 100: 0.4615
+Test Precision 200: 0.3909
+Iteration 2:
+Train loss:
+0.5644517932087183
+Dev AUROC: 0.6944
+Dev NDCG: 0.8239
+Dev Precision 10: 0.5883
+Dev Precision 50: 0.5063
+Dev Precision 100: 0.4555
+Dev Precision 200: 0.3862
+Test AUROC: 0.7037
+Test NDCG: 0.8252
+Test Precision 10: 0.6066
+Test Precision 50: 0.5188
+Test Precision 100: 0.4641
+Test Precision 200: 0.3925
+Iteration 3:
+Train loss:
+0.5578355900943279
+Dev AUROC: 0.6866
+Dev NDCG: 0.8194
+Dev Precision 10: 0.5750
+Dev Precision 50: 0.4953
+Dev Precision 100: 0.4420
+Dev Precision 200: 0.3785
+Test AUROC: 0.6848
+Test NDCG: 0.8188
+Test Precision 10: 0.5761
+Test Precision 50: 0.4969
+Test Precision 100: 0.4440
+Test Precision 200: 0.3785
+Iteration 4:
+Train loss:
+0.5605462715029716
+Dev AUROC: 0.6980
+Dev NDCG: 0.8245
+Dev Precision 10: 0.5934
+Dev Precision 50: 0.5097
+Dev Precision 100: 0.4560
+Dev Precision 200: 0.3882
+Test AUROC: 0.7039
+Test NDCG: 0.8249
+Test Precision 10: 0.6056
+Test Precision 50: 0.5161
+Test Precision 100: 0.4600
+Test Precision 200: 0.3911
+Iteration 5:
+Train loss:
+0.5621447339653969
+Dev AUROC: 0.6935
+Dev NDCG: 0.8216
+Dev Precision 10: 0.5720
+Dev Precision 50: 0.4976
+Dev Precision 100: 0.4476
+Dev Precision 200: 0.3832
+Test AUROC: 0.6998
+Test NDCG: 0.8218
+Test Precision 10: 0.5933
+Test Precision 50: 0.5069
+Test Precision 100: 0.4509
+Test Precision 200: 0.3841
+Iteration 6:
+Train loss:
+0.5550268832594156
+Dev AUROC: 0.6897
+Dev NDCG: 0.8218
+Dev Precision 10: 0.5792
+Dev Precision 50: 0.5009
+Dev Precision 100: 0.4485
+Dev Precision 200: 0.3821
+Test AUROC: 0.6980
+Test NDCG: 0.8242
+Test Precision 10: 0.5897
+Test Precision 50: 0.5153
+Test Precision 100: 0.4598
+Test Precision 200: 0.3876
+Iteration 7:
+Train loss:
+0.5478722658008337
+Dev AUROC: 0.6958
+Dev NDCG: 0.8230
+Dev Precision 10: 0.5841
+Dev Precision 50: 0.5105
+Dev Precision 100: 0.4576
+Dev Precision 200: 0.3884
+Test AUROC: 0.7035
+Test NDCG: 0.8233
+Test Precision 10: 0.5931
+Test Precision 50: 0.5148
+Test Precision 100: 0.4611
+Test Precision 200: 0.3902
+Iteration 8:
+Train loss:
+0.5418717656284571
+Dev AUROC: 0.6968
+Dev NDCG: 0.8231
+Dev Precision 10: 0.5775
+Dev Precision 50: 0.5049
+Dev Precision 100: 0.4500
+Dev Precision 200: 0.3843
+Test AUROC: 0.7011
+Test NDCG: 0.8224
+Test Precision 10: 0.5839
+Test Precision 50: 0.5081
+Test Precision 100: 0.4543
+Test Precision 200: 0.3869
+Iteration 9:
+Train loss:
+0.5374661348760128
+Dev AUROC: 0.6969
+Dev NDCG: 0.8225
+Dev Precision 10: 0.5837
+Dev Precision 50: 0.5054
+Dev Precision 100: 0.4527
+Dev Precision 200: 0.3851
+Test AUROC: 0.7027
+Test NDCG: 0.8236
+Test Precision 10: 0.6018
+Test Precision 50: 0.5153
+Test Precision 100: 0.4609
+Test Precision 200: 0.3891
+Iteration 10:
+Train loss:
+0.5319622224196792
+Dev AUROC: 0.6971
+Dev NDCG: 0.8235
+Dev Precision 10: 0.5862
+Dev Precision 50: 0.5095
+Dev Precision 100: 0.4541
+Dev Precision 200: 0.3858
+Test AUROC: 0.6980
+Test NDCG: 0.8227
+Test Precision 10: 0.5962
+Test Precision 50: 0.5084
+Test Precision 100: 0.4539
+Test Precision 200: 0.3854
+Iteration 11:
+Train loss:
+0.526222350075841
+Dev AUROC: 0.6879
+Dev NDCG: 0.8209
+Dev Precision 10: 0.5723
+Dev Precision 50: 0.4990
+Dev Precision 100: 0.4475
+Dev Precision 200: 0.3807
+Test AUROC: 0.6926
+Test NDCG: 0.8222
+Test Precision 10: 0.5877
+Test Precision 50: 0.5097
+Test Precision 100: 0.4543
+Test Precision 200: 0.3827
+Iteration 12:
+Train loss:
+0.5237766718491912
+Dev AUROC: 0.6906
+Dev NDCG: 0.8216
+Dev Precision 10: 0.5705
+Dev Precision 50: 0.5003
+Dev Precision 100: 0.4473
+Dev Precision 200: 0.3818
+Test AUROC: 0.6940
+Test NDCG: 0.8216
+Test Precision 10: 0.5943
+Test Precision 50: 0.5090
+Test Precision 100: 0.4522
+Test Precision 200: 0.3810
+Iteration 13:
+Train loss:
+0.5189306018874049
+Dev AUROC: 0.6994
+Dev NDCG: 0.8229
+Dev Precision 10: 0.5774
+Dev Precision 50: 0.5052
+Dev Precision 100: 0.4536
+Dev Precision 200: 0.3867
+Test AUROC: 0.7072
+Test NDCG: 0.8246
+Test Precision 10: 0.5933
+Test Precision 50: 0.5227
+Test Precision 100: 0.4664
+Test Precision 200: 0.3933
+Iteration 14:
+Train loss:
+0.5124063668772578
+Dev AUROC: 0.6971
+Dev NDCG: 0.8227
+Dev Precision 10: 0.5822
+Dev Precision 50: 0.5037
+Dev Precision 100: 0.4497
+Dev Precision 200: 0.3849
+Test AUROC: 0.7000
+Test NDCG: 0.8235
+Test Precision 10: 0.5949
+Test Precision 50: 0.5115
+Test Precision 100: 0.4566
+Test Precision 200: 0.3863
+Iteration 15:
+Train loss:
+0.5085281804203987
+Dev AUROC: 0.6978
+Dev NDCG: 0.8243
+Dev Precision 10: 0.5832
+Dev Precision 50: 0.5083
+Dev Precision 100: 0.4550
+Dev Precision 200: 0.3881
+Test AUROC: 0.7087
+Test NDCG: 0.8256
+Test Precision 10: 0.6007
+Test Precision 50: 0.5216
+Test Precision 100: 0.4660
+Test Precision 200: 0.3927
+Iteration 16:
+Train loss:
+0.5089750187471509
+Dev AUROC: 0.6913
+Dev NDCG: 0.8210
+Dev Precision 10: 0.5754
+Dev Precision 50: 0.5009
+Dev Precision 100: 0.4486
+Dev Precision 200: 0.3827
+Test AUROC: 0.7022
+Test NDCG: 0.8224
+Test Precision 10: 0.5869
+Test Precision 50: 0.5131
+Test Precision 100: 0.4572
+Test Precision 200: 0.3874
+Iteration 17:
+Train loss:
+0.5054203737527132
+Dev AUROC: 0.6951
+Dev NDCG: 0.8238
+Dev Precision 10: 0.5861
+Dev Precision 50: 0.5072
+Dev Precision 100: 0.4543
+Dev Precision 200: 0.3857
+Test AUROC: 0.7005
+Test NDCG: 0.8245
+Test Precision 10: 0.5979
+Test Precision 50: 0.5191
+Test Precision 100: 0.4616
+Test Precision 200: 0.3901
+Iteration 18:
+Train loss:
+0.5049435086548328
+Dev AUROC: 0.6930
+Dev NDCG: 0.8227
+Dev Precision 10: 0.5885
+Dev Precision 50: 0.5080
+Dev Precision 100: 0.4510
+Dev Precision 200: 0.3832
+Test AUROC: 0.7009
+Test NDCG: 0.8233
+Test Precision 10: 0.5933
+Test Precision 50: 0.5170
+Test Precision 100: 0.4584
+Test Precision 200: 0.3885
+Iteration 19:
+Train loss:
+0.5043583735823631
+Dev AUROC: 0.6920
+Dev NDCG: 0.8225
+Dev Precision 10: 0.5732
+Dev Precision 50: 0.5056
+Dev Precision 100: 0.4514
+Dev Precision 200: 0.3834
+Test AUROC: 0.7042
+Test NDCG: 0.8237
+Test Precision 10: 0.5928
+Test Precision 50: 0.5186
+Test Precision 100: 0.4611
+Test Precision 200: 0.3884
+Iteration 20:
+Train loss:
+0.4989707749336958
+Dev AUROC: 0.6947
+Dev NDCG: 0.8220
+Dev Precision 10: 0.5701
+Dev Precision 50: 0.5046
+Dev Precision 100: 0.4509
+Dev Precision 200: 0.3828
+Test AUROC: 0.6998
+Test NDCG: 0.8226
+Test Precision 10: 0.5910
+Test Precision 50: 0.5121
+Test Precision 100: 0.4562
+Test Precision 200: 0.3853
+Epoch 13 got best auroc on dev set: 0.6994
+Epoch 13 got auroc on test set w.r.t dev set: 0.7072
+Epoch 15 got auroc on test set: 0.7087
+Epoch 13 got best auprc on dev set: 0.1394
+Epoch 13 got auprc on test set w.r.t dev set: 0.1489
+Epoch 13 got auprc on test set: 0.1489
+Epoch 4 got best ndcg on dev set: 0.8245
+Epoch 4 got ndcg on test set w.r.t dev set: 0.8249
+Epoch 15 got ndcg on test set: 0.8256
+Epoch 4 got best p10 on dev set: 0.5934
+Epoch 4 got p10 on test set w.r.t dev set: 0.6056
+Epoch 2 got p10 on test set: 0.6066
+Epoch 7 got best p50 on dev set: 0.5105
+Epoch 7 got p50 on test set w.r.t dev set: 0.5148
+Epoch 13 got p50 on test set: 0.5227
+Epoch 7 got best p100 on dev set: 0.4576
+Epoch 7 got p100 on test set w.r.t dev set: 0.4611
+Epoch 13 got p100 on test set: 0.4664
+Epoch 7 got best p200 on dev set: 0.3884
+Epoch 7 got p200 on test set w.r.t dev set: 0.3902
+Epoch 13 got p200 on test set: 0.3933
+4:26:33.904157
