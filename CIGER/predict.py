@@ -93,18 +93,17 @@ for batch in (tqdm(batch)):
         k_score_predictions.append(gene_vals)
         gsea_predictions.append(gsea_prediction_list)
 
-pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile.npy') #This is log2FoldChange for each gene in gene_feature
+pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile_all.npy') #This is log2FoldChange for each gene in gene_feature
 k_score_avgs, k_pos, k_neg = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
-print("avgs:")
+print("tot:")
 print(k_score_avgs)
-print("pos:")
-print(k_pos)
+# print("pos:")
+# print(k_pos)
 for i in range(0, 9):
-    print("avg")
     print(np.argsort([k[i] for k in k_score_avgs]))
-    print("pos")
-    print(np.argsort([k[i] for k in k_pos]))
-    print("")
+#     print("pos")
+#     print(np.argsort([k[i] for k in k_pos]))
+#     print("")
 
 # np.save('scores/k_scores.npy', k_score_avgs)
 # np.save('scores/k_scores_pos.npy', k_pos)

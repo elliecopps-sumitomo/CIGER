@@ -32,6 +32,7 @@ def precision_k_200(label_test, label_predict):
     k = 200
     precision_k_pos = list([] for i in range(0, 10))
     precision_k_neg = list([] for i in range(0, 10))
+    precision_k_tot = list([] for i in range(0, 10))
 
     #rank genes in terms of how much their expression changed
     label_test = np.argsort(label_test)
@@ -49,14 +50,15 @@ def precision_k_200(label_test, label_predict):
         pos_predict = set(pos_predict_set[i])
         precision_k_neg[i%10].append(len(neg_test.intersection(neg_predict)) / k)
         precision_k_pos[i % 10].append(len(pos_test.intersection(pos_predict)) / k)
+        precision_k_tot[i%10].append((len(pos_test.intersection(pos_predict)) + len(neg_test.intersection(neg_predict)))/ k)
     #Take average of positive and negative scores
-    precision_scores = []
-    for i in range(0, 10):
-        avg_lst = [(g+h) / 2 for g, h in zip(precision_k_pos[i], precision_k_neg[i])]
-        precision_scores.append(avg_lst)
-    print("dimensions of scores:")
-    print(np.shape(precision_scores))
-    return precision_scores, precision_k_pos, precision_k_neg #this is a 2d array where each cell line has a score for each drug tested
+    # precision_scores = []
+    # for i in range(0, 10):
+    #     avg_lst = [(g+h) / 2 for g, h in zip(precision_k_pos[i], precision_k_neg[i])]
+    #     precision_scores.append(avg_lst)
+    # print("dimensions of scores:")
+    # print(np.shape(precision_scores))
+    return precision_k_tot, precision_k_pos, precision_k_neg #this is a 2d array where each cell line has a score for each drug tested
 
 
 

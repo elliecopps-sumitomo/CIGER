@@ -61,22 +61,19 @@ def read_drug_id(input_file):
 #score = np.load('../scores/k_scores_pos.npy') #score where each row is array of score for each drug tested
 score = np.load('precision_score.npy')
 test = [i[0] for i in score]
-print(test)
-print(np.argsort(test))
-top_10_drug_idx = np.argsort(score, axis=-1)[:, -3:] #Finds index of top 10 scores for each cell line, puts them into an array
+top_10_drug_idx = np.argsort(score, axis=-1)[:, -10:] #Finds index of top 10 scores for each cell line, puts them into an array
 #print(top_10_drug_idx)
-drug_id = read_drug_id('pancreatic_drug_id.csv') #list of drug ids IN ALPHABETIC ORDER
-#drug_id = read_drug_id('drugbank_drug_id.csv')
+#drug_id = read_drug_id('pancreatic_drug_id.csv') #list of drug ids IN ALPHABETIC ORDER
+drug_id = read_drug_id('drugbank_drug_id.csv')
 drug_list_10 = Counter(top_10_drug_idx.flatten()) #Turns into a dictionary of form drug_index : number of cell lines where it has top 10 score
 #print(drug_list_10)
 set10 = set(drug_list_10.keys())
 #print(set10)
 output = [['DrugBank ID', 'Number of cell lines of which drug appears in top-10 candidate']]
 c1 = 'DrugBank ID'
-c2 = 'Number of cell lines of which drug appears in top-3 candidate list'
+c2 = 'Number of cell lines of which drug appears in top-10 candidate list'
 print("{:<15} {:<15}".format(c1, c2))
 # print(drug_list_10)
-# ei = sorted(drug_list_10.items(), key=lambda item: item[1], reverse=True)
-# print(ei)
-for k, v in ei:
+sorted_lst = sorted(drug_list_10.items(), key=lambda item: item[1], reverse=True)
+for k, v in sorted_lst:
     print("{:<15} {:<15}".format(drug_id[k], str(v)))

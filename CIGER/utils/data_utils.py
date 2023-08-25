@@ -166,7 +166,8 @@ def read_data(input_file, drug_train, drug_dev, drug_test, drug):
     neg_label_test = np.asarray((label_test < neg_threshold) * 1.0, dtype=np.float32)
 
     tmp_data = np.asarray(feature_test)
-    cell_list = ['A375', 'A549', 'HA1E', 'HCC515', 'HELA', 'HT29', 'MCF7', 'PC3', 'VCAP', 'YAPC']
+    #cell_list = ['A375', 'A549', 'HA1E', 'HCC515', 'HELA', 'HT29', 'MCF7', 'PC3', 'VCAP', 'YAPC']
+    cell_list = []
     cell_idx = []
     for c in cell_list:
         c_idx = tmp_data[:, 2] == c
