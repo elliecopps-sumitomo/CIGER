@@ -95,6 +95,7 @@ if inference:
             else:
                 pert_idose = None
             gene = ft['gene']
+            print(cell_id)
             predict = model(drug, gene, pert_type, cell_id, pert_idose)
             # print("Drug: ")
             # print(ft["drug_smile"])
@@ -146,7 +147,8 @@ else:
                   use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose)
 
     if warm_start:
-        checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold), map_location=device)
+        #checkpoint = torch.load('saved_model/ciger/%s_%d_with_cell_lines.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold), map_location=device)
+        checkpoint = torch.load('saved_model/ciger/%s.ckpt' % (model_name), map_location=device)
         model.load_state_dict(checkpoint['model_state_dict'])
         model.to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -273,7 +275,7 @@ else:
                 best_dev_ndcg = ndcg_score
                 torch.save({'model_state_dict': model.state_dict(),
                             'optimizer_state_dict': optimizer.state_dict()},
-                           'saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold))
+                           'saved_model/ciger/%s.ckpt' % (model_name + '_decrease_lr_0005'))
 
         epoch_loss = 0
         label_binary_np = np.empty([0, num_gene])
