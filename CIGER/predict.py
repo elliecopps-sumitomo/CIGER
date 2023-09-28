@@ -54,7 +54,7 @@ data = DataReaderPredict(drug_smiles, gene_file, device)
 model = CIGER(drug_input_dim=data.drug_dim, gene_embed=data.gene, gene_input_dim=data.gene.size()[1],
                 encode_dim=512, fp_type=fp_type, loss_type=loss_type, label_type=label_type, device=device,
                 initializer=intitializer, pert_type_input_dim=1, cell_id_input_dim=10, pert_idose_input_dim=1, use_cell_id=True, use_pert_idose=False, use_pert_type=False)
-checkpoint = torch.load('saved_model/ciger/ciger_list_wise_rankcosine_real_0.ckpt',
+checkpoint = torch.load('saved_model/ciger/best_model_decrease_lr.ckpt',
                         map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)
@@ -93,14 +93,14 @@ for batch in (tqdm(batch)):
         k_score_predictions.append(gene_vals)
         gsea_predictions.append(gsea_prediction_list)
 
-pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile_all.npy') #This is log2FoldChange for each gene in gene_feature
-k_score_avgs, k_pos, k_neg = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
-print("tot:")
-print(k_score_avgs)
+#pancreatic_expression = np.load('disease_profile/pancreatic_expression_profile_all.npy') #This is log2FoldChange for each gene in gene_feature
+# k_score_avgs, k_pos, k_neg = precision_k_200(pancreatic_expression, np.array(k_score_predictions))
+# print("tot:")
+# print(k_score_avgs)
 # print("pos:")
 # print(k_pos)
-for i in range(0, 9):
-    print(np.argsort([k[i] for k in k_score_avgs]))
+# for i in range(0, 9):
+#     print(np.argsort([k[i] for k in k_score_avgs]))
 #     print("pos")
 #     print(np.argsort([k[i] for k in k_pos]))
 #     print("")
@@ -109,10 +109,10 @@ for i in range(0, 9):
 # np.save('scores/k_scores_pos.npy', k_pos)
 # np.save('scores/k_scores_neg.npy', k_neg)
 
-# with open(save_predictions, 'w') as file:
-#     writer = csv.DictWriter(file, fieldnames=["drug_id", "cell_line", "gene_exp"])
-#     writer.writeheader()
-#     writer.writerows(predictions)
+with open(save_predictions, 'w') as file:
+    writer = csv.DictWriter(file, fieldnames=["drug_id", "cell_line", "gene_exp"])
+    writer.writeheader()
+    writer.writerows(predictions)
 
 # if gsea_save:
 #     pancreatic_data = ["p_treated"] + pancreatic_expression.tolist()
