@@ -260,7 +260,7 @@ else:
             label_real_np = np.where(label_real_np < 0, 0, label_real_np)
             predict_np = np.where(predict_np < 0, 0, predict_np)
             ndcg_score = ndcg(label_real_np, predict_np)
-            ndcg_score_k = ndcg(label_real_np, predict_np, 30)
+            ndcg_score_k = ndcg_k(label_real_np, predict_np, 30)
             print('Dev AUROC: %.4f' % auroc_score)
             print('Dev NDCG: %.4f' % ndcg_score)
             print('Dev NDCG@30: %.4f' % ndcg_score_k)
