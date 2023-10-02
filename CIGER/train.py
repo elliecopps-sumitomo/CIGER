@@ -17,7 +17,7 @@ import math
 from tqdm import tqdm
 from models import CIGER
 from utils import DataReader
-from utils import auroc, auprc, precision_k, ndcg, kendall_tau, mean_average_precision
+from utils import auroc, auprc, precision_k, ndcg, ndcg_k, kendall_tau, mean_average_precision
 
 start_time = datetime.now()
 
@@ -69,7 +69,7 @@ if inference:
                   initializer=intitializer, pert_type_input_dim=data.pert_type_dim, cell_id_input_dim=data.cell_id_dim,
                   pert_idose_input_dim=data.pert_idose_dim, use_pert_type=data.use_pert_type,
                   use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose)
-    checkpoint = torch.load('saved_model/ciger/%s_%d.ckpt' % (model_name + '_' + loss_type + '_' + label_type, fold),
+    checkpoint = torch.load('saved_model/ciger/%s.ckpt' % (model_name),
                             map_location=device)
     model.load_state_dict(checkpoint['model_state_dict'])
     model.to(device)
@@ -95,7 +95,7 @@ if inference:
             else:
                 pert_idose = None
             gene = ft['gene']
-            print(cell_id)
+            #print(cell_id)
             predict = model(drug, gene, pert_type, cell_id, pert_idose)
             # print("Drug: ")
             # print(ft["drug_smile"])
@@ -130,9 +130,11 @@ if inference:
         label_real_np = np.where(label_real_np < 0, 0, label_real_np)
         predict_np = np.where(predict_np < 0, 0, predict_np)
         ndcg_score = ndcg(label_real_np, predict_np)
+        ndcg_score_k = ndcg_k(label_real_np, predict_np, 30)
         print('Test AUROC: %.4f' % auroc_score)
         print('Test AUPRC: %.4f' % auprc_score)
         print('Test NDCG: %.4f' % ndcg_score)
+        print('Test NDCG@30: %.4f' % ndcg_score_k)
         print('Test Precision 10: %.4f' % precision_10)
         print('Test Precision 50: %.4f' % precision_50)
         print('Test Precision 100: %.4f' % precision_100)
@@ -160,8 +162,9 @@ else:
     # training
 
     best_dev_ndcg = float("-inf")
-    score_list_dev = {'auroc': [], 'auprc': [], 'ndcg': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
-    score_list_test = {'auroc': [], 'auprc': [], 'ndcg': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
+    best_dev_ndcg_k = float("-inf")
+    score_list_dev = {'auroc': [], 'auprc': [], 'ndcg': [], 'ndcg_k': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
+    score_list_test = {'auroc': [], 'auprc': [], 'ndcg': [], 'ndcg_k': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
     num_batch_train = math.ceil(len(data.train_feature['drug']) / batch_size)
     num_batch_dev = math.ceil(len(data.dev_feature['drug']) / batch_size)
     num_batch_test = math.ceil(len(data.test_feature['drug']) / batch_size)
@@ -257,8 +260,10 @@ else:
             label_real_np = np.where(label_real_np < 0, 0, label_real_np)
             predict_np = np.where(predict_np < 0, 0, predict_np)
             ndcg_score = ndcg(label_real_np, predict_np)
+            ndcg_score_k = ndcg(label_real_np, predict_np, 30)
             print('Dev AUROC: %.4f' % auroc_score)
             print('Dev NDCG: %.4f' % ndcg_score)
+            print('Dev NDCG@30: %.4f' % ndcg_score_k)
             print('Dev Precision 10: %.4f' % precision_10)
             print('Dev Precision 50: %.4f' % precision_50)
             print('Dev Precision 100: %.4f' % precision_100)
@@ -266,16 +271,22 @@ else:
             score_list_dev['auroc'].append(auroc_score)
             score_list_dev['auprc'].append(auprc_score)
             score_list_dev['ndcg'].append(ndcg_score)
+            score_list_dev['ndcg_k'].append(ndcg_score_k)
             score_list_dev['p10'].append(precision_10)
             score_list_dev['p50'].append(precision_50)
             score_list_dev['p100'].append(precision_100)
             score_list_dev['p200'].append(precision_200)
 
-            if best_dev_ndcg < ndcg_score:
-                best_dev_ndcg = ndcg_score
+            # if best_dev_ndcg < ndcg_score:
+            #     best_dev_ndcg = ndcg_score
+            #     torch.save({'model_state_dict': model.state_dict(),
+            #                 'optimizer_state_dict': optimizer.state_dict()},
+            #                'saved_model/ciger/%s.ckpt' % (model_name + '_decrease_lr_0005'))
+            if best_dev_ndcg_k < ndcg_score_k:
+                best_dev_ndcg_k = ndcg_score_k
                 torch.save({'model_state_dict': model.state_dict(),
                             'optimizer_state_dict': optimizer.state_dict()},
-                           'saved_model/ciger/%s.ckpt' % (model_name + '_decrease_lr_0005'))
+                           'saved_model/ciger/%s.ckpt' % (model_name))
 
         epoch_loss = 0
         label_binary_np = np.empty([0, num_gene])
@@ -327,6 +338,7 @@ else:
             label_real_np = np.where(label_real_np < 0, 0, label_real_np)
             predict_np = np.where(predict_np < 0, 0, predict_np)
             ndcg_score = ndcg(label_real_np, predict_np)
+            ndcg_k_score = ndcg_k(label_real_np, predict_np, 30)
             print('Test AUROC: %.4f' % auroc_score)
             print('Test NDCG: %.4f' % ndcg_score)
             print('Test Precision 10: %.4f' % precision_10)
@@ -336,10 +348,14 @@ else:
             score_list_test['auroc'].append(auroc_score)
             score_list_test['auprc'].append(auprc_score)
             score_list_test['ndcg'].append(ndcg_score)
+            score_list_test['ndcg_k'].append(ndcg_score_k)
             score_list_test['p10'].append(precision_10)
             score_list_test['p50'].append(precision_50)
             score_list_test['p100'].append(precision_100)
             score_list_test['p200'].append(precision_200)
+            #Track validation loss over every epoch
+            print('Validation Loss: ')
+            print(model.loss(label_real_np, predict_np))
 
     best_dev_epoch = np.argmax(score_list_dev['auroc'])
     print("Epoch %d got best auroc on dev set: %.4f" % (best_dev_epoch + 1, score_list_dev['auroc'][best_dev_epoch]))
@@ -361,6 +377,13 @@ else:
     [best_dev_epoch]))
     best_test_epoch = np.argmax(score_list_test['ndcg'])
     print("Epoch %d got ndcg on test set: %.4f" % (best_test_epoch + 1, score_list_test['ndcg'][best_test_epoch]))
+
+    best_dev_epoch = np.argmax(score_list_dev['ndcg_k'])
+    print("Epoch %d got best ndcg@30 on dev set: %.4f" % (best_dev_epoch + 1, score_list_dev['ndcg_k'][best_dev_epoch]))
+    print("Epoch %d got ndcg@30 on test set w.r.t dev set: %.4f" % (best_dev_epoch + 1, score_list_test['ndcg_k']
+    [best_dev_epoch]))
+    best_test_epoch = np.argmax(score_list_test['ndcg'])
+    print("Epoch %d got ndcg@30 on test set: %.4f" % (best_test_epoch + 1, score_list_test['ndcg_k'][best_test_epoch]))
 
     best_dev_epoch = np.argmax(score_list_dev['p10'])
     print("Epoch %d got best p10 on dev set: %.4f" % (best_dev_epoch + 1, score_list_dev['p10'][best_dev_epoch]))

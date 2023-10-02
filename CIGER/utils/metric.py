@@ -113,6 +113,8 @@ def auprc(label_test, label_predict):
 def ndcg(label_test, label_predict):
     return ndcg_score(label_test, label_predict)
 
+def ndcg_k(label_test, label_predict, k):
+    return ndcg_score(label_test, label_predict, k=k)
 
 def ndcg_per_sample(label_test, label_predict):
     score = []
