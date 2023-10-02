@@ -292,6 +292,7 @@ else:
         label_binary_np = np.empty([0, num_gene])
         label_real_np = np.empty([0, num_gene])
         predict_np = np.empty([0, num_gene])
+        val_loss = 0
         with torch.no_grad():
             for i, batch in enumerate(tqdm(data.get_batch_data(dataset='test', batch_size=batch_size, shuffle=False),
                                            total=num_batch_test)):
@@ -329,6 +330,9 @@ else:
                 label_binary_np = np.concatenate((label_binary_np, label_binary.cpu().numpy()), axis=0)
                 label_real_np = np.concatenate((label_real_np, label_real.cpu().numpy()), axis=0)
                 predict_np = np.concatenate((predict_np, predict.cpu().numpy()), axis=0)
+                loss = model.loss(label, predict)
+                loss.backward()
+                val_loss += loss.item()
             auroc_score = auroc(label_binary_np, predict_np)
             auprc_score = auprc(label_binary_np, predict_np)
             precision_10 = precision_k(label_real_np, predict_np, 10)
@@ -355,7 +359,7 @@ else:
             score_list_test['p200'].append(precision_200)
             #Track validation loss over every epoch
             print('Validation Loss: ')
-            print(model.loss(label_real_np, predict_np))
+            print(val_loss / i+1)
 
     best_dev_epoch = np.argmax(score_list_dev['auroc'])
     print("Epoch %d got best auroc on dev set: %.4f" % (best_dev_epoch + 1, score_list_dev['auroc'][best_dev_epoch]))
