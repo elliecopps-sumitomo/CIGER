@@ -13,3 +13,8 @@ __pycache__/*
 *.zip
 CIGER/output/*
 CIGER/saved_model/*
+10-DEBC/perturbation_signatures/*.png
+bayesian_processing/*
+CIGER/utils/*.png
+CIGER/GSEA_Linux_4.3.2/*
+
