@@ -17,7 +17,7 @@ import math
 from tqdm import tqdm
 from models import CIGER
 from utils import DataReader
-from utils import auroc, auprc, precision_k, ndcg, ndcg_k, ndcg_k_down, kendall_tau, mean_average_precision
+from utils import auroc, auprc, precision_k, ndcg, ndcg_k, kendall_tau, mean_average_precision
 
 start_time = datetime.now()
 
@@ -127,11 +127,13 @@ if inference:
         precision_200 = precision_k(label_real_np, predict_np, 200)
         kendall_tau_score = kendall_tau(label_real_np, predict_np)
         map_score = mean_average_precision(label_real_np, predict_np)
+        label_real_np_down = np.where(label_real_np > 0, 0, -1 * label_real_np)
+        predict_np_down = np.where(predict_np > 0, 0, -1 * predict_np)
         label_real_np = np.where(label_real_np < 0, 0, label_real_np)
         predict_np = np.where(predict_np < 0, 0, predict_np)
         ndcg_score = ndcg(label_real_np, predict_np)
         ndcg_score_k = ndcg_k(label_real_np, predict_np, 20)
-        ndcg_score_k_down = ndcg_k_down(label_real_np, predict_np, 20)
+        ndcg_score_k_down = ndcg_k(label_real_np_down, predict_np_down, 20)
         ndcg_score_k_avg = (ndcg_score_k + ndcg_score_k_down) / 2
         print('Test AUROC: %.4f' % auroc_score)
         print('Test AUPRC: %.4f' % auprc_score)
@@ -263,11 +265,13 @@ else:
             precision_50 = precision_k(label_real_np, predict_np, 50)
             precision_100 = precision_k(label_real_np, predict_np, 100)
             precision_200 = precision_k(label_real_np, predict_np, 200)
+            label_real_np_down = np.where(label_real_np > 0, 0, -1 * label_real_np)
+            predict_np_down = np.where(predict_np > 0, 0, -1 * predict_np)
             label_real_np = np.where(label_real_np < 0, 0, label_real_np)
             predict_np = np.where(predict_np < 0, 0, predict_np)
             ndcg_score = ndcg(label_real_np, predict_np)
             ndcg_score_k = ndcg_k(label_real_np, predict_np, 20)
-            ndcg_score_k_down = ndcg_k_down(label_real_np, predict_np, 20)
+            ndcg_score_k_down = ndcg_k(label_real_np_down, predict_np_down, 20)
             ndcg_k_avg = (ndcg_score_k + ndcg_score_k_down) / 2
             print('Dev AUROC: %.4f' % auroc_score)
             print('Dev NDCG: %.4f' % ndcg_score)
@@ -352,11 +356,13 @@ else:
             precision_50 = precision_k(label_real_np, predict_np, 50)
             precision_100 = precision_k(label_real_np, predict_np, 100)
             precision_200 = precision_k(label_real_np, predict_np, 200)
+            label_real_np_down = np.where(label_real_np > 0, 0, -1 * label_real_np)
+            predict_np_down = np.where(predict_np > 0, 0, -1 * predict_np)
             label_real_np = np.where(label_real_np < 0, 0, label_real_np)
             predict_np = np.where(predict_np < 0, 0, predict_np)
             ndcg_score = ndcg(label_real_np, predict_np)
             ndcg_score_k = ndcg_k(label_real_np, predict_np, 20)
-            ndcg_score_k_down = ndcg_k_down(label_real_np, predict_np, 20)
+            ndcg_score_k_down = ndcg_k(label_real_np_down, predict_np_down, 20)
             ndcg_score_k_avg = (ndcg_score_k + ndcg_score_k_down) / 2
             print('Test AUROC: %.4f' % auroc_score)
             print('Test NDCG: %.4f' % ndcg_score)

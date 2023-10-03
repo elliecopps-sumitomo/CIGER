@@ -116,11 +116,6 @@ def ndcg(label_test, label_predict):
 def ndcg_k(label_test, label_predict, k):
     return ndcg_score(label_test, label_predict, k=k)
 
-def ndcg_k_down(label_test, label_predict, k):
-    label_test = [-i for i in label_test]
-    label_predict = [-i for i in label_predict]
-    return ndcg_score(label_test, label_predict, k=k)
-
 def ndcg_per_sample(label_test, label_predict):
     score = []
     for i in range(len(label_test)):
