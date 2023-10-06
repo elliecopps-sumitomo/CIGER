@@ -73,12 +73,6 @@ def choose_mean_example(examples):
 def split_data_by_pert_id_cv(input_file, fold):
     with open(input_file) as f:
         pert_id = f.readline().strip().split(',')
-    print("pert_id: ", pert_id)
-    print(len(pert_id[3]))
-    for i, pert in enumerate(pert_id):
-        pert_id[i] = str(pert).replace(' ', '')
-    print(len(pert_id[3]))
-    print(pert_id)
     shuffle(pert_id, random_state=87)
     num_pert_id = len(pert_id)
     fold_size = int(num_pert_id / 10)
@@ -134,13 +128,6 @@ def read_data(input_file, drug_train, drug_dev, drug_test, drug):
                     data[ft] = [lb]
     for ft, lb in sorted(data.items()):
         ft = ft.split(',')
-        print("ft: ", ft)
-        print(drug_dev)
-        print(drug_train)
-        print(drug_test)
-        print(len(drug_test))
-        print(len(drug_train))
-        print(len(drug_dev))
         if ft[0] in drug_train:
             feature_train.append(ft)
             if len(lb) == 1:

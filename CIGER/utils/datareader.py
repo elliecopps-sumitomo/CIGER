@@ -2,9 +2,10 @@ from .data_utils import *
 
 
 class DataReader(object):
-    def __init__(self, drug_file, pert_id_file, gene_file, data_file, fp_type, device, fold):
+    def __init__(self, drug_file, pert_id_file, gene_file, data_file, fp_type, device, fold, num_genes):
         self.device = device
         self.fp_type = fp_type
+        self.num_genes = num_genes
         if fp_type == 'ecfp':
             self.drug, self.drug_dim = read_drug_number(drug_file, 1024)
         elif fp_type == 'neural':
@@ -60,8 +61,8 @@ class DataReader(object):
                 output_feature['cell_id'] = feature['cell_id'][excerpt]
             if self.use_pert_idose:
                 output_feature['pert_idose'] = feature['pert_idose'][excerpt]
-            output_feature['gene'] = torch.arange(978).repeat(len(output_feature['cell_id'])).\
-                reshape(len(output_feature['cell_id']), 978).to(self.device)
+            output_feature['gene'] = torch.arange(self.num_genes).repeat(len(output_feature['cell_id'])).\
+                reshape(len(output_feature['cell_id']), self.num_genes).to(self.device)
             output_label['real'] = label['real'][excerpt]
             output_label['binary'] = label['binary'][excerpt]
             output_label['binary_reverse'] = label['binary_reverse'][excerpt]
@@ -69,8 +70,9 @@ class DataReader(object):
 
 
 class DataReaderPredict(object):
-    def __init__(self, drug_file, gene_file, device):
+    def __init__(self, drug_file, gene_file, device, num_genes):
         self.device = device
+        self.num_genes = num_genes
         drug, self.drug_dim = read_drug_string(drug_file)
         self.drug = drug
         drug_id, drug_smiles = zip(*sorted(drug.items()))
@@ -85,6 +87,6 @@ class DataReaderPredict(object):
             output_feature['drug'] = convert_smile_to_feature(self.drug[excerpt], self.device)
             output_feature['drug_smile'] = self.drug[excerpt]
             output_feature['drug_id'] = self.drug_id[excerpt][0]
-            output_feature['gene'] = torch.arange(978).repeat(len(self.drug[excerpt])).\
-                reshape(len(self.drug[excerpt]), 978).to(self.device)
+            output_feature['gene'] = torch.arange(self.num_genes).repeat(len(self.drug[excerpt])).\
+                reshape(len(self.drug[excerpt]), self.num_genes).to(self.device)
             yield output_feature

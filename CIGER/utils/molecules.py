@@ -90,6 +90,7 @@ class Molecule(object):
             return self.bond_list
 
     def read_from_smiles(self, smiles):
+        print("smile: ", smiles)
         mol = rdkit.Chem.MolFromSmiles(smiles)
         if not mol:
             raise ValueError("Could not parse SMILES string:", smiles)
