@@ -37,6 +37,7 @@ parser.add_argument('--fold', help='id for testing set in cross-validation setti
 parser.add_argument('--model_name', help='name of model')
 parser.add_argument('--warm_start', help='training from pre-trained model')
 parser.add_argument('--inference', help='inference from pre-trained model')
+parser.add_argument('--kaggle', help='is dataset kaggle or not')
 
 args = parser.parse_args()
 
@@ -54,11 +55,15 @@ fold = int(args.fold)
 model_name = args.model_name
 warm_start = True if args.warm_start == 'True' else False
 inference = True if args.inference == 'True' else False
+kaggle = True if args.kaggle == 'True' else False
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 intitializer = torch.nn.init.xavier_uniform_
-num_gene = 978
-data = DataReader(drug_file, drug_id_file, gene_file, data_file, fp_type, device, fold)
+if kaggle:
+    num_gene =936
+else:
+    num_gene = 978
+data = DataReader(drug_file, drug_id_file, gene_file, data_file, fp_type, device, fold, num_gene)
 print('#Train: %d' % len(data.train_feature['drug']))
 print('#Dev: %d' % len(data.dev_feature['drug']))
 print('#Test: %d' % len(data.test_feature['drug']))
@@ -68,7 +73,7 @@ if inference:
                   encode_dim=512, fp_type=fp_type, loss_type=loss_type, label_type=label_type, device=device,
                   initializer=intitializer, pert_type_input_dim=data.pert_type_dim, cell_id_input_dim=data.cell_id_dim,
                   pert_idose_input_dim=data.pert_idose_dim, use_pert_type=data.use_pert_type,
-                  use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose)
+                  use_cell_id=data.use_cell_id, use_pert_idose=data.use_pert_idose, is_kaggle=kaggle)
     checkpoint = torch.load('saved_model/ciger/%s.ckpt' % (model_name),
                             map_location=device)
     model.load_state_dict(checkpoint['model_state_dict'])
