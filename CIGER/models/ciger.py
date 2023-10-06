@@ -9,8 +9,12 @@ from .attention import Attention
 class CIGER(nn.Module):
     def __init__(self, drug_input_dim, gene_embed, gene_input_dim, encode_dim, fp_type, loss_type, label_type, device,
                  initializer=None, pert_type_input_dim=None, cell_id_input_dim=None, pert_idose_input_dim=None,
-                 use_pert_type=False, use_cell_id=False, use_pert_idose=False):
+                 use_pert_type=False, use_cell_id=False, use_pert_idose=False, is_kaggle=False):
         super(CIGER, self).__init__()
+        if is_kaggle:
+            num_genes = 936
+        else:
+            num_genes = 978
         self.fp_type = fp_type
         self.use_pert_type = use_pert_type
         self.use_cell_id = use_cell_id
@@ -28,7 +32,7 @@ class CIGER(nn.Module):
         if self.use_pert_idose:
             self.input_dim += pert_idose_input_dim
         self.encode_dim = encode_dim
-        self.gene_embed = nn.Embedding(978, gene_input_dim).from_pretrained(gene_embed, freeze=True)
+        self.gene_embed = nn.Embedding(num_genes, gene_input_dim).from_pretrained(gene_embed, freeze=True)
         self.encoder = nn.Sequential(nn.Linear(self.input_dim, 2 * self.encode_dim), nn.ReLU(), nn.Dropout(0.1),
                                      nn.Linear(2 * self.encode_dim, self.encode_dim), nn.ReLU(), nn.Dropout(0.1))
         self.decoder = nn.Sequential(nn.Linear(self.encode_dim, 128), nn.ReLU(), nn.Dropout(0.1),
