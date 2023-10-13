@@ -49,12 +49,12 @@ for g in gene_file_list:
     gene_list.append(g[0])
 
 
-data = DataReaderPredict(drug_smiles, gene_file, device)
+data = DataReaderPredict(drug_smiles, gene_file, device, 978)
 
 model = CIGER(drug_input_dim=data.drug_dim, gene_embed=data.gene, gene_input_dim=data.gene.size()[1],
                 encode_dim=512, fp_type=fp_type, loss_type=loss_type, label_type=label_type, device=device,
                 initializer=intitializer, pert_type_input_dim=1, cell_id_input_dim=10, pert_idose_input_dim=1, use_cell_id=True, use_pert_idose=False, use_pert_type=False)
-checkpoint = torch.load('saved_model/ciger/best_model_decrease_lr.ckpt',
+checkpoint = torch.load('saved_model/ciger/ndcg@20_120_epochs.ckpt',
                         map_location=device)
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(device)
