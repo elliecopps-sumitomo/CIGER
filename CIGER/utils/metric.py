@@ -4,8 +4,8 @@ from scipy.stats import pearsonr, spearmanr, kendalltau
 
 
 def precision_k(label_test, label_predict, k):
-    num_pos = 200
-    num_neg = 200
+    num_pos = 2 * k
+    num_neg = 2 * k
     label_test = np.argsort(label_test, axis=1)
     label_predict = np.argsort(label_predict, axis=1)
     precision_k_neg = []
@@ -116,10 +116,10 @@ def ndcg(label_test, label_predict):
 def ndcg_k(label_test, label_predict, k):
     return ndcg_score(label_test, label_predict, k=k)
 
-def ndcg_per_sample(label_test, label_predict):
+def ndcg_per_sample(label_test, label_predict, num_genes):
     score = []
     for i in range(len(label_test)):
-        score.append(ndcg_score(label_test[i].reshape(1, 978), label_predict[i].reshape(1, 978)))
+        score.append(ndcg_score(label_test[i].reshape(1, num_genes), label_predict[i].reshape(1, num_genes)))
     return score
 
 

@@ -176,6 +176,7 @@ else:
     best_dev_ndcg_k = float("-inf")
     best_dev_ndcg_k_down = float("-inf")
     best_dev_ndcg_k_avg = float("-inf")
+    best_dev_p_10 = float("-inf")
     score_list_dev = {'auroc': [], 'auprc': [], 'ndcg': [], 'ndcg_k': [], 'ndcg_k_down':[], 'ndcg_k_avg': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
     score_list_test = {'auroc': [], 'auprc': [], 'ndcg': [], 'ndcg_k': [], 'ndcg_k_down':[], 'ndcg_k_avg': [], 'p10': [], 'p50': [], 'p100': [], 'p200': []}
     num_batch_train = math.ceil(len(data.train_feature['drug']) / batch_size)
@@ -302,8 +303,8 @@ else:
             #     torch.save({'model_state_dict': model.state_dict(),
             #                 'optimizer_state_dict': optimizer.state_dict()},
             #                'saved_model/ciger/%s.ckpt' % (model_name + '_decrease_lr_0005'))
-            if best_dev_ndcg_k_avg < ndcg_k_avg:
-                best_dev_ndcg_k_avg = ndcg_k_avg
+            if best_dev_p_10 < precision_10:
+                best_dev_p_10 = precision_10
                 torch.save({'model_state_dict': model.state_dict(),
                             'optimizer_state_dict': optimizer.state_dict()},
                            'saved_model/ciger/%s.ckpt' % (model_name))
@@ -422,7 +423,7 @@ else:
     print("Epoch %d got ndcg@20_down on test set w.r.t dev set: %.4f" % (best_dev_epoch + 1, score_list_test['ndcg_k_down']
     [best_dev_epoch]))
     best_test_epoch = np.argmax(score_list_test['ndcg_k_down'])
-    print("Epoch %d got ndcg@20 on test set: %.4f" % (best_test_epoch + 1, score_list_test['ndcg_k_down'][best_test_epoch]))
+    print("Epoch %d got ndcg@20_down on test set: %.4f" % (best_test_epoch + 1, score_list_test['ndcg_k_down'][best_test_epoch]))
 
 
     best_dev_epoch = np.argmax(score_list_dev['p10'])
